@@ -11,7 +11,13 @@
 
         <style type"text/css">
             li {
+                color:yellow;
+            }
+            .redList {
                 color:red;
+            }
+            #blueList {
+                color:blue;
             }
         </style>
     </head>
@@ -19,14 +25,14 @@
         <strong>오늘의 단축키 (순서가 없는 리스트)</strong>
         <ui>
             <li style="color:yellow"> Mac -> command + +key , Windows -> ctrl + -key : 글자 크기 확대 축소</li>
-            <li> Mac -> command + / , Windows -> ctrl + / : 주석 처리 </li>
+            <li id="blueList"> Mac -> command + / , Windows -> ctrl + / : 주석 처리 </li>
         </ui>
         <br>
         
         <strong>오늘의 단축키 (순서가 없는 리스트)</strong>
         <ol>
             <li> Mac -> command + +key , Windows -> ctrl + -key : 글자 크기 확대 축소</li>
-            <li> Mac -> command + / , Windows -> ctrl + / : 주석 처리 </li>
+            <li class="redList"> Mac -> command + / , Windows -> ctrl + / : 주석 처리 </li>
         </ol>
         <br>
 
@@ -47,12 +53,11 @@
         <h5>h5크기의 텍스트</h5>
         <h6>h6크기의 텍스트</h6>
 
-        <pre>
+        <pre class="redList">
             pre
                텍스트
               스타일
         </pre>
-
 
     </body>
 </html>
