@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <script type="text/javascript">
+            alert('A');
+        </script>
+    </head>
+    <body onload='alert("D")'>
+        <div id="one" style="background-color: blue; height: 50px; width: 50px;"></div>
+        <script type="text/javascript">
+            alert('B');
+        </script>
+    </body>
+        <script type="text/javascript">
+            document.getElementById("one").innerHTML="안녕하세요";
+            document.getElementById("one").style.backgroundColor="red";
+        </script>
+</html>
