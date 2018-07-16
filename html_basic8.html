@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        <div class="one" style="background-color: blue; height: 50px; width: 100px;"></div>
+        <br>
+        <div class="one" style="background-color: blue; height: 50px; width: 100px;"></div>
+        <br>
+        <div style="border: 1px solid #ccc; border-radius: 2px; padding: 20px; width: 40px;" onclick="changeStyle()">
+            버튼.
+        </div>
+    </body>
+        <script type="text/javascript">
+            function changeStyle() {
+                let temp = document.getElementsByClassName("one");
+                for(let i = 0; i<temp.length; i++) {
+                    temp[i].style.backgroundColor="red";
+                }
+            }
+        </script>
+</html>
