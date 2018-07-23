@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#btn_1").on("click", function (){
+                    let value = $("#text_1").val();
+                    $("#parent").append("<div>" + value + "</div>");
+                })
+            });
+        </script>
+    </head>
+    <body style="padding:10px">
+        <!-- onclick 구현 -->
+        <input type="button" id="btn_1"/>
+        <input type="text" id="text_1"/>
+        <div id="parent">
+        </div>
+    </body>
+</html>
