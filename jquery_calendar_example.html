@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                function showDays(){
+                    let lastDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                    let year = $("#year").val();
+                    let month = $("#month").val();
+                    $("#parent").html("");
+                    for(let i=1; i<=lastDays[month-1]; i=i+1) {
+                        $("#parent").append("<span>" + i + "&nbsp;</span>");
+                    }
+                }
+                $("#btn").on("click", showDays);
+            });
+        </script>
+    </head>
+    <body style="padding:10px">
+        <input type="button" id="btn" value="조회"/>
+        년도<input type="text" id="year"/>
+        월<input type="text" id="month"/>
+        <div id="parent"></div>
+    </body>
+</html>
