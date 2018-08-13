@@ -1,0 +1,55 @@
+<HTML>
+
+<head>
+    <meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDT5ZxtnGSQ611OyA5DMQZzeAks9CxTzdc",
+            authDomain: "test3-90e02.firebaseapp.com",
+            databaseURL: "https://test3-90e02.firebaseio.com",
+            projectId: "test3-90e02",
+            storageBucket: "test3-90e02.appspot.com",
+            messagingSenderId: "269080012982"
+        };
+        firebase.initializeApp(config);
+
+        // firebase.database().ref('myinfo').set({
+        //     username: "영규",
+        //     email: "loganjeon@daum.net",
+        //     profile_picture : "http://aa.png"
+        // });
+
+        // firebase.database().ref('myphone').set("01012345679");
+        // firebase.database().ref('myinfo/email').set("loganjeon@naver.com");
+
+        // firebase.database().ref("myphone").on("value", function(snapshot){
+        //     alert(snapshot.val());
+        // });
+
+        // firebase.database().ref("myphone").on("value", callback);
+        // function callback(snapshot)
+        // {
+        //     alert(snapshot.val());
+        // };
+
+        $(document).ready(function () {
+            firebase.database().ref("friends").on("value", function (snapshot) {
+                snapshot.forEach(function (childSnapshot) {
+                    $("body").append("<div>" + childSnapshot.val().nickname + "</div>");
+                });
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <input type="text" name="nick">
+    <input type="text" name="phone">
+    <input type="sumit">
+</body>
+
+</HTML>

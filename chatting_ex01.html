@@ -1,0 +1,83 @@
+<HTML>
+    <head>
+        <meta http-equiv="content-type" content="text/html" charset="UTF-8" />
+        <script src="https://code.jquery.com/jquery-latest.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+        
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyCgQNf8M8XA4ND4e6ETVe8aiJ8wsAzPl4I",
+                authDomain: "chatex01-75ecb.firebaseapp.com",
+                databaseURL: "https://chatex01-75ecb.firebaseio.com",
+                projectId: "chatex01-75ecb",
+                storageBucket: "chatex01-75ecb.appspot.com",
+                messagingSenderId: "15239847315"
+            };
+
+
+            firebase.initializeApp(config);
+            database = firebase.database();
+
+            function sendMsg(){
+                let date = new Date();
+                let msg = $("input[name='message'").val();
+                database.ref("msgs/"+date).set(msg);
+                $("input[name='message']").val("");
+            }
+
+            function loadMsgs(){
+                database.ref("msgs").on("value", callback);
+
+                function callback(snapshot){
+                    $(".body").html("");
+                    let i = snapshot.numChildren();
+                    snapshot.forEach(function(child){
+                        $(".body").append("<div>" + child.val() + "</div>");
+                    });
+                    $(".body").scrollTop(15000);
+                }
+            }
+            
+            $(document).ready(function(){
+                loadMsgs();
+                $(".btn").on("click", sendMsg);
+                $("input[name='message']").keydown(function(key){
+                    if(key.keyCode == 13) { sendMsg(); }
+                })
+            });
+
+        </script>
+        
+        <style>
+            .container{
+                border:1px solid #000000;
+                width:100%;
+            }
+           .header{
+               text-align: center;
+           } 
+           .body{
+               height: 500px;
+           }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="header">
+                <div style="float: left;">회원가입</div>
+                <span>채팅</span>
+                <div style="float: right;">로그인 </div>
+            </div>
+            <div class="body">
+
+            </div>
+            <div class="bottom">
+                <input type="text" name="message"
+                placeholder="내용입력" style="">
+                <div class="btn" style="float: right;">SEND</div>
+            </div>
+        </div>
+    </body>
+</HTML>
