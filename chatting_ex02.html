@@ -73,6 +73,47 @@
                 }
 
         </style>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyCgQNf8M8XA4ND4e6ETVe8aiJ8wsAzPl4I",
+                authDomain: "chatex01-75ecb.firebaseapp.com",
+                databaseURL: "https://chatex01-75ecb.firebaseio.com",
+                projectId: "chatex01-75ecb",
+                storageBucket: "chatex01-75ecb.appspot.com",
+                messagingSenderId: "15239847315"
+            };
+            firebase.initializeApp(config);
+            database = firebase.database();
+
+            function sendMsg(){
+                let date = new Date();
+                let msg = $("input[name='message'").val();
+                database.ref("msgs/"+date).set(msg);
+                $("input[name='message']").val("");
+            }
+
+            function loadMsgs(){
+                database.ref("msgs").on("value", callback);
+
+                function callback(snapshot){
+                    $(".body").html("");
+                    let i = snapshot.numChildren();
+                    snapshot.forEach(function(child){
+                        $(".body").append("<div>" + child.val() + "</div>");
+                    });
+                    $(".body").scrollTop(15000);
+                }
+            }
+            
+            $(document).ready(function(){
+                loadMsgs();
+                $(".btn").on("click", sendMsg);
+                $("input[name='message']").keydown(function(key){
+                    if(key.keyCode == 13) { sendMsg(); }
+                })
+            });
+        </script>
     </head>
     <body>
         <div class="container">
@@ -80,14 +121,9 @@
                 <div class="col-md-5">
                     <div class="panel panel-primary">
                         <div class="panel-heading" id="accordion">
-                            <span class="glyphicon glyphicon-comment"></span> Chat
-                            <div class="btn-group pull-right">
-                                <a type="button" class="btn btn-default btn-xs" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            <span class="glyphicon glyphicon-comment"></span> Chat   
                                     <span class="glyphicon glyphicon-chevron-down"></span>
-                                </a>
-                            </div>
                         </div>
-                    <div class="panel-collapse collapse" id="collapseOne">
                         <div class="panel-body">
                             <ul class="chat">
                                 <li class="left clearfix"><span class="chat-img pull-left">
@@ -147,7 +183,6 @@
                                     </div>
                                 </li>
                             </ul>
-                        </div>
                         <div class="panel-footer">
                             <div class="input-group">
                                 <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
