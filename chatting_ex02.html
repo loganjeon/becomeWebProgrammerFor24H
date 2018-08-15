@@ -107,12 +107,33 @@
             }
             
             $(document).ready(function(){
-                loadMsgs();
-                $(".btn").on("click", sendMsg);
-                $("input[name='message']").keydown(function(key){
-                    if(key.keyCode == 13) { sendMsg(); }
-                })
+                $("#btn-chat").on("click", callback);
+                function callback(){
+                    let msg = $("#btn-input").val();
+                    db.ref("msgs").push().set({nick:"영규", message : msg});
+                    $("#btn-input").val("");
+                }
             });
+
+            // db.ref("msgs").once("value", addMsg);
+            // function addMsg(snapshot){
+            //     alert(JSON.stringfy(snapshot.val()));
+            // }
+            // db.ref("msgs").on("value", addMsg);
+            // function addMsg(snapshot){
+            //     alert(JSON.stringfy(snapshot.val()));
+            // };
+            function loadMsgs(){
+                db.ref("msgs").on("value", function(snapshot){
+                    snapshot.forEach(function(child){
+                        let nick = child.val().nick;
+                        let message = child.val().message;
+                        let chatContent = makeMsg(nick, message);
+                        $(".chat").append(chatContent);
+                    });
+                });
+            }
+            
         </script>
     </head>
     <body>
