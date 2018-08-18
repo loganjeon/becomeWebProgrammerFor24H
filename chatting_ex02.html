@@ -73,7 +73,7 @@
                 }
 
         </style>
-        <script>
+	    <script type="text/javascript">
             // Initialize Firebase
             var config = {
                 apiKey: "AIzaSyCgQNf8M8XA4ND4e6ETVe8aiJ8wsAzPl4I",
@@ -85,59 +85,54 @@
             };
             firebase.initializeApp(config);
             database = firebase.database();
-
-            function sendMsg(){
-                let date = new Date();
-                let msg = $("input[name='message'").val();
-                database.ref("msgs/"+date).set(msg);
-                $("input[name='message']").val("");
-            }
-
-            function loadMsgs(){
-                database.ref("msgs").on("value", callback);
-
-                function callback(snapshot){
-                    $(".body").html("");
-                    let i = snapshot.numChildren();
-                    snapshot.forEach(function(child){
-                        $(".body").append("<div>" + child.val() + "</div>");
-                    });
-                    $(".body").scrollTop(15000);
-                }
-            }
             
             $(document).ready(function(){
-                $("#btn-chat").on("click", callback);
-                function callback(){
-                    let msg = $("#btn-input").val();
-                    db.ref("msgs").push().set({nick:"영규", message : msg});
-                    $("#btn-input").val("");
-                }
+                    $("#btn-chat").on("click", sendMsg);
+
+                    function sendMsg(){
+                        let d = new Date();
+                        let currentTime = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()+ " "+d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+                        let msg = $("#btn-input").val();
+                        db.ref("msgs").push().set({nick:$("#nick-input").val(), message : msg, date: currentTime});
+                        $("#btn-input").val("");
+                    }
+                    
+                    loadMsgs();
+                    $("#btn-input").keydown(function(key){
+                    if(key.keyCode == 13){ sendMsg(); }
+                });
             });
 
-            // db.ref("msgs").once("value", addMsg);
-            // function addMsg(snapshot){
-            //     alert(JSON.stringfy(snapshot.val()));
-            // }
-            // db.ref("msgs").on("value", addMsg);
-            // function addMsg(snapshot){
-            //     alert(JSON.stringfy(snapshot.val()));
-            // };
             function loadMsgs(){
-                db.ref("msgs").on("value", function(snapshot){
-                    snapshot.forEach(function(child){
-                        let nick = child.val().nick;
-                        let message = child.val().message;
-                        let chatContent = makeMsg(nick, message);
-                        $(".chat").append(chatContent);
+                    db.ref("msgs").on("value", function(snapshot){
+                        $(".chat").html("");
+                        let i = 0;
+                        snapshot.forEach(function (child){
+                            i++;
+                            let nick = child.val().nick;
+                            let msg = child.val().message;
+                            let time = child.val().date;
+                            
+                            let chatContent = makeMsg(nick, msg, time);
+                            $(".chat").append(chatContent);
+                        });
+                        $(".panel-body").scrollTop(150000000);
                     });
-                });
+            }	
+
+            function makeMsg(nick, msg, time){
+                if(nick == $("#nick-input").val()){
+                    return '<li class="right clearfix"><span class="chat-img pull-right"><img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><small class=" text-muted"><span class="glyphicon glyphicon-time"></span>'+time+'</small><strong class="pull-right primary-font">'+ nick+'</strong></div><p>'+msg+'</p></div></li>';
+                }else{
+                    return '<li class="left clearfix"><span class="chat-img pull-left"><img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" /></span><div class="chat-body clearfix"><div class="header"><small class=" text-muted"><span class="glyphicon glyphicon-time"></span>'+time+'</small><strong class="pull-left primary-font">'+ nick+'</strong></div><p>'+msg+'</p></div></li>'
+                }
             }
             
         </script>
     </head>
     <body>
         <div class="container">
+		<input id="nick-input">
             <div class="row">
                 <div class="col-md-5">
                     <div class="panel panel-primary">
@@ -147,62 +142,6 @@
                         </div>
                         <div class="panel-body">
                             <ul class="chat">
-                                <li class="left clearfix"><span class="chat-img pull-left">
-                                    <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
-                                </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header">
-                                            <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
-                                                <span class="glyphicon glyphicon-time"></span>12 mins ago</small>
-                                        </div>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                            dolor, quis ullamcorper ligula sodales.
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="right clearfix"><span class="chat-img pull-right">
-                                    <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />
-                                </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header">
-                                            <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>13 mins ago</small>
-                                            <strong class="pull-right primary-font">Bhaumik Patel</strong>
-                                        </div>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                            dolor, quis ullamcorper ligula sodales.
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="left clearfix"><span class="chat-img pull-left">
-                                    <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
-                                </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header">
-                                            <strong class="primary-font">Jack Sparrow</strong> <small class="pull-right text-muted">
-                                                <span class="glyphicon glyphicon-time"></span>14 mins ago</small>
-                                        </div>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                            dolor, quis ullamcorper ligula sodales.
-                                        </p>
-                                    </div>
-                                </li>
-                                <li class="right clearfix"><span class="chat-img pull-right">
-                                    <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />
-                                </span>
-                                    <div class="chat-body clearfix">
-                                        <div class="header">
-                                            <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>15 mins ago</small>
-                                            <strong class="pull-right primary-font">Bhaumik Patel</strong>
-                                        </div>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur bibendum ornare
-                                            dolor, quis ullamcorper ligula sodales.
-                                        </p>
-                                    </div>
-                                </li>
                             </ul>
                         <div class="panel-footer">
                             <div class="input-group">
