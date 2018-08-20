@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>채팅앱</title>
         
-        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <link href="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" type="text/javascript"></script>
         <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
@@ -84,7 +84,7 @@
                 messagingSenderId: "15239847315"
             };
             firebase.initializeApp(config);
-            database = firebase.database();
+            db = firebase.database();
             
             $(document).ready(function(){
                     $("#btn-chat").on("click", sendMsg);
